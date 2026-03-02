@@ -1,0 +1,107 @@
+{
+Robot 
+{
+class Robot:
+    def __init__(self, name, battery=100):
+        self.name = name
+        self.battery = battery
+        self.tasks_completed = []  # List to track tasks
+        self.task_details = {}     # Dictionary to track task info
+
+    def greet(self):
+        print(f"\nHello! I am {self.name}, battery: {self.battery}%")
+
+    def do_task(self, task):
+        if self.battery <= 0:
+            print(f"{self.name} has no battery! Charge first.")
+            return
+ {
+         Control flow for battery              warning
+ {
+        if self.battery < 20:
+            print(f"{self.name} is low on battery. Doing {task} slowly...")
+        else:
+            print(f"{self.name} is performing {task} quickly!")
+{
+         Update task list and details
+{
+     self.tasks_completed.append(task)
+        self.task_details[task] = self.task_details.get(task, 0) + 1
+{
+        Reduce battery
+{
+        self.battery -= 10
+        if self.battery < 0:
+            self.battery = 0
+
+    def charge(self):
+        print(f"{self.name} is charging...")
+        self.battery = 100
+
+    def show_tasks(self):
+        print(f"\nTasks completed by {self.name}:")
+        if not self.tasks_completed:
+            print("No tasks done yet.")
+        else:
+            for task, count in self.task_details.items():
+                print(f"- {task}: {count} time(s)")
+{
+Function to assign a task
+{
+def assign_task(robot):
+    task = input("Enter a task for the robot (clean/paint/compute): ").lower()
+{
+    Control flow for unknown tasks
+{
+    if task not in ["clean", "paint", "compute"]:
+        print("Unknown task. Robot will idle.")
+        task = "idle"
+    
+    robot.do_task(task)
+{
+Main Program 
+Ask for robot name
+{
+robot_name = input("Name your robot: ")
+{
+Create robot object
+{
+r1 = Robot(robot_name, battery=50)
+{
+Greet
+{
+r1.greet()
+{
+Assign tasks using a loop
+{
+for i in range(5):  # let user assign 5 tasks
+    assign_task(r1)
+    print(f"Battery left: {r1.battery}%\n")
+{
+Show all tasks completed
+{
+r1.show_tasks()
+{
+Ask user if they want to edit tasks
+{
+edit = input("\nDo you want to remove a task from history? (yes/no): ").lower()
+if edit == "yes":
+    remove_task = input("Enter the task name to remove: ")
+    if remove_task in r1.tasks_completed:
+{
+         Remove all occurrences
+{
+        r1.tasks_completed = [t for t in r1.tasks_completed if t != remove_task]
+        r1.task_details.pop(remove_task, None)
+        print(f"{remove_task} removed from history.")
+    else:
+        print(f"{remove_task} not found in history.")
+{
+Show updated task history
+{
+r1.show_tasks()
+{
+Recharge robot
+{
+r1.charge()
+r1.greet()
